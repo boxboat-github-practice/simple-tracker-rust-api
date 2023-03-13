@@ -1,0 +1,54 @@
+on:
+  pull_request:
+    branches: [main]
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Install Rust
+        uses: actions-rs/toolchain@v1
+        with:
+          toolchain: stable
+          components: rustfmt, clippy
+      - name: Lint codebase
+        run: cargo clippy -- -D warnings
+      - name: Run All Test
+        run: cargo test
+
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Install Rust
+        uses: actions-rs/toolchain@v1
+        with:
+          toolchain: stable
+          components: rustfmt, clippy
+      - name: Lint codebase
+        run: cargo clippy -- -D warnings
+      - name: Build
+        run: cargo build --release
+      - name: Archive
+        uses: actions/upload-artifact@v2
+        with:
+          name: my-assets
+          path: target/release/simple-tracker-rust-api
+
+  build-container:
+    needs: [build]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install Docker
+        uses: docker/setup-docker@v2
+      - name: Build Docker image
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          push: true
+          tags: my-registry.com/simple-tracker-rust-api:${{ github.sha }}
+          build-args: |
+            RUST_PROGRAM_NAME=${{ env.RUST_PROGRAM_NAME }}
+          cache-from: type=registry,ref=my-registry.com/simple-tracker-rust-api:latest

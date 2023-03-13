@@ -1,0 +1,23 @@
+[package]
+name = "boxboat_inventory_demo"
+authors = ["Toure Dunnon toure@boxboat.com"]
+description = "This is a demo project to provide basic API endpoints for CRUD operations."
+version = "0.1.0"
+edition = "2021"
+license = "Apache-2.0"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+actix-web = "4.3.1"
+serde = "1.0.154"
+dotenv = "0.15.0"
+futures = "0.3.26"
+
+[dependencies.mongodb]
+version = "2.4.0"
+default-features = false
+features = ["async-std-runtime"]
+
+[dev-dependencies]
+serde_json = "1.0.94"
