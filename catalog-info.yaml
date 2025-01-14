@@ -12,6 +12,6 @@ spec:
   type: backend
   system: simple-tracker
   owner: group:fishdank
-  lifecycle: production
+  lifecycle: experimental
   providesApis:
     - simple-tracker-api
