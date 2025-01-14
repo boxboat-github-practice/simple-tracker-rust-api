@@ -1,0 +1,17 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: simple-tracker-rust-api
+  annotations:
+    github.com/project-slug: boxboat-backstage/simple-tracker-rust-api
+    backstage.io/techdocs-ref: dir:.
+  tags:
+    - rust
+    - web-server
+spec:
+  type: backend
+  system: simple-tracker
+  owner: group:fishdank
+  lifecycle: production
+  providesApis:
+    - simple-tracker-api
